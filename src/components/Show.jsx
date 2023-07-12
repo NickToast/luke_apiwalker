@@ -5,6 +5,8 @@ import {useParams, Link, useNavigate} from 'react-router-dom';
 const Show = () => {
     const [info, setInfo] = useState({});
 
+    const [homeWorldInfo, setHomeWorldInfo] = useState({})
+
     const {resource, id} = useParams()
 
     const navigator = useNavigate()
@@ -17,6 +19,7 @@ const Show = () => {
             .then(res => {
                 setInfo(res.data)
                 console.log(res.data)
+                if(resource=='people'){getHomeWorldInfo(res.data.homeworld)}
             })
             .catch(err=> {
                 console.log(err)
@@ -24,6 +27,24 @@ const Show = () => {
             })
     }
 
+    const getHomeWorldInfo = (homeWorld) => {
+        // axios.get(info.data.homeworld)
+        axios.get(homeWorld)
+            .then(res=>{
+                setHomeWorldInfo({
+                    name: res.data.name,
+                    link: res.data.url.substring(21)
+                })
+            })
+            // .then(res=>{
+            //     setHomeWorldInfo(res.)
+            // })
+            .catch(err=>{
+                console.log(err)
+            })
+    }
+
+    // useEffect(getHomeWorldInfo, [resource, id])
     useEffect(getInfo, [resource, id])
 
     return (
@@ -37,6 +58,7 @@ const Show = () => {
                     <p><strong>Mass:</strong> {info.mass} kg</p>
                     <p><strong>Hair Color:</strong> {info.hair_color}</p>
                     <p><strong>Skin Color:</strong> {info.skin_color}</p>
+                    <Link to={`${homeWorldInfo.link}`}>Homeworld: {homeWorldInfo.name}</Link>
                 </>
                 :<></>
             }
@@ -63,6 +85,7 @@ const Show = () => {
                 </>
                 :<></>
             }
+            <hr/>
             <Link to='/'>Back to Search</Link>
         </div>
     )

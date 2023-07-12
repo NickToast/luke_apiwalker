@@ -29,3 +29,7 @@ form>button{
   color: white;
   border-radius: 5px;
 }
+
+img {
+  margin: 15px;
+}

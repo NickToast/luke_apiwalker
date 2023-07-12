@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import {useParams} from 'react-router-dom';
+import {useParams, Link, useNavigate} from 'react-router-dom';
 
 const Show = () => {
     const [info, setInfo] = useState({});
 
     const {resource, id} = useParams()
+
+    const navigator = useNavigate()
 
     const getInfo = () => {
         axios.get(`https://swapi.dev/api/${resource}/${id}`)
@@ -16,7 +18,10 @@ const Show = () => {
                 setInfo(res.data)
                 console.log(res.data)
             })
-            .catch(err=>console.log(err))
+            .catch(err=> {
+                console.log(err)
+                navigator('/error')
+            })
     }
 
     useEffect(getInfo, [])
@@ -28,8 +33,8 @@ const Show = () => {
             resource === 'people'?
                 <>
                     <h2>{info.name}</h2>
-                    <p><strong>Height:</strong> {info.height}</p>
-                    <p><strong>Mass:</strong> {info.mass}</p>
+                    <p><strong>Height:</strong> {info.height} cm</p>
+                    <p><strong>Mass:</strong> {info.mass} kg</p>
                     <p><strong>Hair Color:</strong> {info.hair_color}</p>
                     <p><strong>Skin Color:</strong> {info.skin_color}</p>
                 </>
@@ -41,7 +46,7 @@ const Show = () => {
                     <h2>{info.name}</h2>
                     <p><strong>Climate:</strong> {info.climate}</p>
                     <p><strong>Terrain:</strong> {info.terrain}</p>
-                    <p><strong>Surface Water:</strong> {info.surface_water}</p>
+                    <p><strong>Surface Water:</strong> {info.surface_water == 1?"True":"False"}</p>
                     <p><strong>Population:</strong> {info.population}</p>
                 </>
                 :<></>
@@ -58,6 +63,7 @@ const Show = () => {
                 </>
                 :<></>
             }
+            <Link to='/'>Back to Search</Link>
         </div>
     )
 }

@@ -13,6 +13,10 @@ const Search = () => {
     const submitForm = e => {
         e.preventDefault()
         navigator(`/${info.resource}/${info.id}`)
+        setInfo({
+            resource: info.resource,
+            id: ""
+        })
     }
 
     const handleChange = e => {

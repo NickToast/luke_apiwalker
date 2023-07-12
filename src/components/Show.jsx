@@ -24,7 +24,7 @@ const Show = () => {
             })
     }
 
-    useEffect(getInfo, [])
+    useEffect(getInfo, [resource, id])
 
     return (
         <div>
@@ -41,7 +41,7 @@ const Show = () => {
                 :<></>
             }
             {
-            resource ==='planets'?
+            resource === 'planets'?
                 <>
                     <h2>{info.name}</h2>
                     <p><strong>Climate:</strong> {info.climate}</p>
